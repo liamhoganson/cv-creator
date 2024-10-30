@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <form method="POST">
+        {{ project_form.hidden_tag() }}
+        <div id="project-forms">
+            <div class="project-form">
+                <div>{{ project_form.project_name.label }} {{ project_form.project_name }}</div>
+                <div>{{ project_form.github_repo_link.label }} {{ project_form.github_repo_link }}</div>
+                <div>{{ project_form.skills_learned.label }} {{ project_form.skills_learned }}</div>
+                <div>{{ project_form.project_functions.label }} {{ project_form.project_functions }}</div>
+                <div>{{ project_form.add_another.label }}: {{ project_form.add_another() }}</div>
+            </div>
+        </div>
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>
+

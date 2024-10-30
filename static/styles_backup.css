@@ -1,0 +1,85 @@
+/* Sleek dark theme with gray/blackish background and white text */
+body {
+    background-color: #2c2c2c; /* Gray/blackish background */
+    color: #ffffff; /* White text */
+    font-family: 'Arial', sans-serif; /* Font style */
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #ffffff; /* White links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #444444; /* Dark gray buttons */
+    color: #ffffff; /* White text on buttons */
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #555555; /* Slightly lighter gray on hover */
+}
+
+input, textarea {
+    background-color: #3c3c3c; /* Dark gray background for input fields */
+    color: #ffffff; /* White text for input fields */
+    border: 1px solid #555555; /* Gray border */
+    padding: 10px;
+    margin: 5px 0;
+    width: auto; /* Auto width for input fields */
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #bbbbbb; /* Light gray for placeholders */
+}
+
+header, footer {
+    background-color: #1e1e1e; /* Darker background for header and footer */
+    padding: 20px;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.navbar a {
+    color: #ffffff; /* White navigation links */
+    padding: 10px;
+    text-transform: uppercase;
+    margin: 0 10px;
+}
+
+.navbar a:hover {
+    background-color: #444444; /* Dark gray background on hover */
+    border-radius: 4px;
+}
+
+.container {
+    padding: 20px;
+}
+
+.card {
+    background-color: #3c3c3c; /* Dark gray background for cards */
+    color: #ffffff; /* White text */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+

@@ -1,0 +1,85 @@
+body {
+    background-color: #2c2c2c; /* Gray/blackish background */
+    color: #ffffff; /* White text */
+    font-family: 'Courier New', monospace; /* Font style */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.education-form, .project-form {
+    background-color: #3c3c3c; /* Dark gray background for forms */
+    padding: 20px;
+    margin: 20px 0; /* Spacing between forms */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: #444444; /* Dark gray buttons */
+    color: #ffffff; /* White text on buttons */
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #555555; /* Slightly lighter gray on hover */
+}
+
+input, textarea, select {
+    background-color: #3c3c3c; /* Dark gray background for input fields */
+    color: #ffffff; /* White text for input fields */
+    border: 1px solid #555555; /* Gray border */
+    padding: 10px;
+    margin: 5px 0;
+    width: calc(100% - 22px); /* Adjusted for padding and border */
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #bbbbbb; /* Light gray for placeholders */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+textarea {
+    height: 100px; /* Adjust the height as needed */
+}
+
+.add-entry-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.add-entry-container label {
+    margin-right: 10px;
+    white-space: nowrap; /* Prevent label from wrapping to next line */
+}
+
+.add-entry-container select {
+    margin-right: 10px; /* Space between select box and button */
+}
+
+.add-entry-container button {
+    flex-shrink: 0;
+}

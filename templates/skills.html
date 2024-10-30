@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skills Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <form method="POST">
+        {{ skills_form.hidden_tag() }}
+        <div id="skills-forms">
+            <div class="skills-form">
+                <div>{{ skills_form.skills_list.label }} {{ skills_form.skills_list }}</div>
+            </div>
+        </div>
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>
