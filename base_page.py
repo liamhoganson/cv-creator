@@ -35,15 +35,14 @@ class BasePage(AbstractPage):
         form_instance = self.form_class()
         if request.method == "POST" and form_instance.validate_on_submit():
 
-            validator = self.form_validator()
-
+            validation_result = self.form_validator()
             if request.form.get('add_another'):
-                self.process_form(validator, is_multiple = True)
+                self.process_form(validation_result, is_multiple = True)
 
                 if request.form.get("add_another") == 'yes':
                     return redirect(url_for(self.current_page))
             else:
-                self.process_form(validator, is_multiple = False)
+                self.process_form(validation_result, is_multiple = False)
             return redirect(url_for(self.next_page))
 
         return render_template(self.template_name, **{self.form_name: form_instance})

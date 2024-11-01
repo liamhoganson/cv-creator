@@ -85,7 +85,7 @@ class CertsDataModel(BaseModel):
         return CommonFunctionality(v=v).convert_to_list()
 
 class CompiledPayload(BaseModel):
-    user_data: Dict[str, str]
+    user_data: UserDataModel
     education_data: Optional[List[EducationDataModel]] = None
     experience_data: Optional[List[ExperienceDataModel]] = None
     projects_data: Optional[List[ProjectDataModel]] = None

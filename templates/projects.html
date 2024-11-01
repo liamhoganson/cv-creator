@@ -14,11 +14,13 @@
                 <div>{{ project_form.github_repo_link.label }} {{ project_form.github_repo_link }}</div>
                 <div>{{ project_form.skills_learned.label }} {{ project_form.skills_learned }}</div>
                 <div>{{ project_form.project_functions.label }} {{ project_form.project_functions }}</div>
-                <div>{{ project_form.add_another.label }}: {{ project_form.add_another() }}</div>
+                <div class="add-entry-container">
+                    <label>{{ project_form.add_another.label }}</label>
+                    {{ project_form.add_another() }}
+                </div>
             </div>
         </div>
         <button type="submit">Next</button>
     </form>
 </body>
 </html>
-

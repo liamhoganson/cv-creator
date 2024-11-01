@@ -20,4 +20,4 @@ class ChatGPT():
                 {"role": "user", "content": f"Can you write me a professional resume summary given this data: {self.resume_data}"}
             ]
         )
-        return response
+        return response.choices[0].message.content

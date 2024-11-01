@@ -43,6 +43,10 @@ def certs():
     page = CertsData()
     return page.handle_request()
 
+# @site.route('/ai-assist-options', methods=['GET', 'POST'])
+# def ai_assist():
+#     return page.handle_request()
+
 @site.route("/submit", methods=["GET"])
 def submit():
     return render_template("submitted.html")

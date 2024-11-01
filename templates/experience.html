@@ -14,11 +14,13 @@
                 <div>{{ experience_form.company.label }} {{ experience_form.company }}</div>
                 <div>{{ experience_form.location.label }} {{ experience_form.location }}</div>
                 <div>{{ experience_form.job_functions.label }} {{ experience_form.job_functions }}</div>
-                <div>{{ experience_form.add_another.label }}: {{ experience_form.add_another() }}</div>
+                <div class="add-entry-container">
+                    <label>{{ experience_form.add_another.label }}</label>
+                    {{ experience_form.add_another() }}
+                </div>
             </div>
         </div>
         <button type="submit">Next</button>
     </form>
 </body>
 </html>
-

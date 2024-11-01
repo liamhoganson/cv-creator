@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <form method="POST", action="{{ url_for('site.userinfo') }}">
+    <form method="POST" action="{{ url_for('site.userinfo') }}">
         {{ user_form.hidden_tag() }}
         <div id="userinfo-forms">
             <div class="userinfo-form">
