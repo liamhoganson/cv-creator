@@ -35,6 +35,10 @@ class CertsForm(FlaskForm):
     certs_list = TextAreaField("List of Certifications", validators=[Optional()])
     submit = SubmitField("Next")
 
+class AiOptionsForm(FlaskForm):
+    add_summary = SelectField("Do you want an AI generated summary?", choices=[("no", "No"), ("yes", "Yes")], default="no")
+    edit_attributes = SelectField("Do you want AI to enhance your resume?", choices=[("no", "No"), ("yes", "Yes")], default="no")
+
 class UserForm(FlaskForm):
     full_name = StringField("Full Name", validators=[InputRequired()])
     phone_number = StringField("Phone Number", validators=[InputRequired()])

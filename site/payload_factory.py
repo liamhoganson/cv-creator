@@ -1,8 +1,9 @@
 from flask import session
 import hashlib
 from ..data_models.flask_form_data_models import CompiledPayload
+from ..network.chatgpt import ChatGPT
 
-class PayloadSanitizer():
+class PayloadFactory():
 
     @staticmethod
     def remove_none_values(data):

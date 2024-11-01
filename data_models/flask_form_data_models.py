@@ -84,6 +84,10 @@ class CertsDataModel(BaseModel):
     def validate_certs(cls, v):
         return CommonFunctionality(v=v).convert_to_list()
 
+class AiOptionsModel(BaseModel):
+    add_summary: bool
+    edit_attributes: bool
+
 class CompiledPayload(BaseModel):
     user_data: UserDataModel
     education_data: Optional[List[EducationDataModel]] = None
@@ -91,3 +95,4 @@ class CompiledPayload(BaseModel):
     projects_data: Optional[List[ProjectDataModel]] = None
     skills_data: Optional[SkillsDataModel] = None
     certs_data: Optional[CertsDataModel] = None
+    ai_options_data: AiOptionsModel

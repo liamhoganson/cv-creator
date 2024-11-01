@@ -8,6 +8,7 @@ from ..views.experience import ExperienceData
 from ..views.projects import ProjectData
 from ..views.skills import SkillsData
 from ..views.certs import CertsData
+from ..views.aioptions import AiOptionsData
 
 # Blueprint constructor
 site = Blueprint("site", __name__)
@@ -43,9 +44,10 @@ def certs():
     page = CertsData()
     return page.handle_request()
 
-# @site.route('/ai-assist-options', methods=['GET', 'POST'])
-# def ai_assist():
-#     return page.handle_request()
+@site.route('/aioptions', methods=['GET', 'POST'])
+def aioptions():
+    page = AiOptionsData()
+    return page.handle_request()
 
 @site.route("/submit", methods=["GET"])
 def submit():
