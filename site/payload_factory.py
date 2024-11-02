@@ -1,5 +1,7 @@
-from flask import session
+import json
 import hashlib
+from flask import session
+from ..site.session_handler import SessionHandler
 from ..data_models.flask_form_data_models import CompiledPayload
 from ..network.chatgpt import ChatGPT
 
@@ -12,10 +14,10 @@ class PayloadFactory():
         '''
         if isinstance(data, dict):
             # Remove keys where values are None or empty strings
-            return {k: PayloadSanitizer.remove_none_values(v) for k, v in data.items() if v not in (None, '')}
+            return {k: PayloadFactory.remove_none_values(v) for k, v in data.items() if v not in (None, '')}
         elif isinstance(data, list):
             # Remove items that are None or empty strings, but keep empty lists
-            return [PayloadSanitizer.remove_none_values(item) for item in data if item not in (None, '')]
+            return [PayloadFactory.remove_none_values(item) for item in data if item not in (None, '')]
         else:
             return data
 
@@ -33,16 +35,27 @@ class PayloadFactory():
                 session[key] = list(unique_entries.values())
 
     @staticmethod
-    def convert_session_to_payload():
+    async def convert_session_to_payload():
         '''
         Converts session data to JSON payload.
         '''
-        if session.get('csrf_token'):
-            session.pop('csrf_token')
-        if session.get('_permanent'):
-            session.pop('_permanent')
+        session_data = dict(session)
+        session.pop('csrf_token', None)
+        session.pop('_permanent', None)
+        print(session_data)
 
-        json_payload = CompiledPayload(**session).dict()
-        json_payload = PayloadSanitizer.remove_none_values(json_payload)
-        PayloadSanitizer.remove_non_unique_forms()
+        # AI Options
+        ai_options_data = session_data.get('ai_options_data', {})
+        if ai_options_data.get('add_summary'):
+            summary = await ChatGPT(session_data).get_resume_summary()
+            SessionHandler().update_session(session_key="summary", form_data=summary, is_multiple=False)
+        if ai_options_data.get('edit_attributes'):
+            ai_edited_object = await ChatGPT(session_data).edit_resume_attributes()
+            print(ai_edited_object)
+            session_data = json.loads(ai_edited_object)
+        session_data.pop('ai_options_data', None)
+
+        PayloadFactory.remove_non_unique_forms()
+        json_payload = CompiledPayload(**session_data).dict()
+        json_payload = PayloadFactory.remove_none_values(json_payload)
         return json_payload

@@ -87,12 +87,13 @@ class CertsDataModel(BaseModel):
 class AiOptionsModel(BaseModel):
     add_summary: bool
     edit_attributes: bool
+    job_desc: Optional[str]
 
 class CompiledPayload(BaseModel):
+    summary: Optional[str] = None
     user_data: UserDataModel
     education_data: Optional[List[EducationDataModel]] = None
     experience_data: Optional[List[ExperienceDataModel]] = None
     projects_data: Optional[List[ProjectDataModel]] = None
     skills_data: Optional[SkillsDataModel] = None
     certs_data: Optional[CertsDataModel] = None
-    ai_options_data: AiOptionsModel

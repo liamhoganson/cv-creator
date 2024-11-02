@@ -6,6 +6,8 @@ load_dotenv("env_vars.env")
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY")
     OPEN_AI_API_KEY = os.getenv("OPEN_AI_API_KEY")
+    PROMPT_ONE = os.getenv("PROMPT_ONE")
+    PROMPT_TWO = os.getenv("PROMPT_TWO")
 
     @staticmethod
     def validate():
