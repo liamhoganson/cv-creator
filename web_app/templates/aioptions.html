@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Assist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <form method="POST" action="{{ url_for('site.aioptions') }}">
+        {{ aioptions_form.hidden_tag() }}
+        <div id="aioptions-forms">
+            <div class="aioptions-form">
+                <div>{{ aioptions_form.add_summary.label }} {{ aioptions_form.add_summary }}</div>
+                <div>{{ aioptions_form.edit_attributes.label }} {{ aioptions_form.edit_attributes }}</div>
+                <div>{{ aioptions_form.job_desc.label }} {{ aioptions_form.job_desc }}</div>
+                </div>
+            </div>
+        </div>
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experience Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <form method="POST">
+        {{ experience_form.hidden_tag() }}
+        <div id="experience-forms">
+            <div class="experience-form">
+                <div>{{ experience_form.title.label }} {{ experience_form.title }}</div>
+                <div>{{ experience_form.company.label }} {{ experience_form.company }}</div>
+                <div>{{ experience_form.location.label }} {{ experience_form.location }}</div>
+                <div>{{ experience_form.job_functions.label }} {{ experience_form.job_functions }}</div>
+                <div class="add-entry-container">
+                    <label>{{ experience_form.add_another.label }}</label>
+                    {{ experience_form.add_another() }}
+                </div>
+            </div>
+        </div>
+        <button type="submit">Next</button>
+    </form>
+</body>
+</html>

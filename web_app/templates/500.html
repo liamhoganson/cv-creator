@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server Error - 500</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>An error occured on the server</h1>
+    <p><a href="{{ url_for('site.userinfo') }}">Back</a></p>
+</body>
+</html>
