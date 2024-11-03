@@ -1,6 +1,6 @@
 import re
-from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator
-from typing import Optional, List, Dict, Sequence
+from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator, model_validator, Field
+from typing import Optional, List, Dict, Sequence, Union
 from datetime import datetime
 
 class CommonFunctionality:
@@ -24,6 +24,32 @@ class CommonFunctionality:
         if isinstance(self.v, str):
             return [line.strip() for line in self.v.splitlines() if self.v]
         return []
+
+    @staticmethod
+    def datetime_validation(values, start_field: str, end_field: str):
+        '''
+        Validates start and end dates based on provided field names.
+        '''
+        start_date = values.get(start_field)
+        end_date = values.get(end_field)
+
+        # If start_date is provided and end_date is empty, set end_date to "Present"
+        if isinstance(start_date, str) and start_date != '':
+            if end_date is None or end_date == '':
+                values[end_field] = "Present"
+        else:
+            values[start_field] = None
+            values[end_field] = None
+        return values
+
+    def convert_datetime(self):
+        '''
+        Converts a datetime object to a formatted string.
+        '''
+        if isinstance(self.v, datetime):
+            return self.v.strftime("%m/%d/%Y")
+        return self.v
+
 
 class UserDataModel(BaseModel):
     full_name: str
@@ -60,21 +86,36 @@ class UserDataModel(BaseModel):
 
 
 class EducationDataModel(BaseModel):
-    university: Optional[str] = None
-    location: Optional[str] = None
-    degree: Optional[str] = None
-    university_start_date: Optional[datetime] = None
-    university_end_date: Optional[datetime] = None
+    university: Optional[str] = Field(default=None, description="Name of the university.")
+    location: Optional[str] = Field(default=None, description="Location of the university.")
+    degree: Optional[str] = Field(default=None, description="Degree obtained.")
+    university_start_date: Optional[Union[str, None]]
+    university_end_date: Optional[Union[str, None]]
 
-    @field_validator('university_start_date', 'university_end_date', mode='before')
-    def validate_dates(cls, v: datetime):
-        return CommonFunctionality(v=v).if_none()
+    @model_validator(mode='before')
+    def check_dates(cls, values):
+        return CommonFunctionality.datetime_validation(values, 'university_start_date', 'university_end_date')
+
+    @field_validator('university_start_date', 'university_end_date', mode='after')
+    def convert_datetime(cls, v):
+        return CommonFunctionality(v).convert_datetime()
 
 class ExperienceDataModel(BaseModel):
     title: Optional[str] = None
     company: Optional[str] = None
     location: Optional[str] = None
+    job_start_date: Optional[datetime] = None
+    job_end_date: Optional[datetime] | Optional[str] = None
     job_functions: Optional[List[str]] = None
+
+    # Experience Model Validators
+    @model_validator(mode='before')
+    def check_dates(cls, values):
+        return CommonFunctionality.datetime_validation(values, 'job_start_date', 'job_end_date')
+
+    @field_validator('job_start_date', 'job_end_date', mode='after')
+    def convert_datetime(cls, v):
+        return CommonFunctionality(v).convert_datetime()
 
     @field_validator('job_functions', mode='before')
     def validate_job_functions(cls, v):
@@ -111,6 +152,7 @@ class AiOptionsModel(BaseModel):
     add_summary: bool
     edit_attributes: bool
     job_desc: Optional[str]
+
 
 class CompiledPayload(BaseModel):
     summary: Optional[str] = None

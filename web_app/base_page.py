@@ -21,7 +21,8 @@ class BasePage(AbstractPage):
         try:
             validator = self.form_model(**request.form)
             return json.loads(validator.json())
-        except Exception:
+        except Exception as e:
+            print(e)
             return None
 
     # GET/POST backend function
@@ -33,6 +34,7 @@ class BasePage(AbstractPage):
         if request.method == "POST" and form_instance.validate_on_submit():
 
             validation_result = self.form_validator()
+            print(validation_result)
             if validation_result is None:
                 return render_template("500.html")
             if request.form.get('add_another'):

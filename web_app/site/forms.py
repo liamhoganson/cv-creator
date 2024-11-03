@@ -15,6 +15,8 @@ class ExperienceForm(FlaskForm):
     title = StringField("Job Title", validators=[Optional()])
     company = StringField("Company Name", validators=[Optional()])
     location = StringField("Job Location", validators=[Optional()])
+    job_start_date = DateField("Job Start Date", format='%Y-%m-%d', validators=[Optional()])
+    job_end_date = DateField("Job End Date (Leave blank if present)", format='%Y-%m-%d', validators=[Optional()])
     job_functions = TextAreaField("Job Functions", validators=[Optional()])
     add_another = SelectField("Add another Job?", choices=[("no", "No"), ("yes", "Yes")], default="no")
     submit = SubmitField("Next")
