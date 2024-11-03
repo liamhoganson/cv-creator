@@ -6,7 +6,7 @@ from ..data_models.flask_form_data_models import UserDataModel
 
 class UserData(BasePage):
     def __init__(self):
-        super().__init__(template_name= "index.html", form_class=UserForm, form_name="user_form", form_model=UserDataModel, next_page="education")
+        super().__init__(template_name= "index.html", form_class=UserForm, form_model=UserDataModel, next_page="education")
 
     def process_form(self, form, is_multiple):
         form_data = SessionHandler.get_form_data(form)

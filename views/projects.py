@@ -6,7 +6,7 @@ from flask import session
 
 class ProjectData(BasePage):
     def __init__(self):
-        super().__init__(template_name="projects.html", form_class=ProjectForm, form_name="project_form", form_model=ProjectDataModel, next_page="skills")
+        super().__init__(template_name="projects.html", form_class=ProjectForm, form_model=ProjectDataModel, next_page="skills")
 
     def process_form(self, form, is_multiple):
         form_data = SessionHandler.get_form_data(form)
