@@ -1,6 +1,6 @@
+import re
 from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator
-from pydantic_extra_types.phone_numbers import PhoneNumber
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Sequence
 from datetime import datetime
 
 class CommonFunctionality:
@@ -27,7 +27,7 @@ class CommonFunctionality:
 
 class UserDataModel(BaseModel):
     full_name: str
-    phone_number: PhoneNumber
+    phone_number: str
     email: EmailStr
     linkedin: Optional[HttpUrl] = None
     github: Optional[HttpUrl] = None
@@ -35,6 +35,29 @@ class UserDataModel(BaseModel):
     @field_validator('linkedin', 'github', mode='before')
     def validate_urls(cls, v):
         return CommonFunctionality(v=v).if_none()
+
+    @field_validator('phone_number', mode='before')
+    def validate_phone(cls, v):
+        # Check for letters in the input
+        if re.search(r'[A-Za-z]', v):
+            raise ValueError("Phone number must not contain letters.")
+
+        cleaned_number = re.sub(r'\D', '', v)
+        if not (7 <= len(cleaned_number) <= 12):
+            raise ValueError("Phone number must be between 7 and 12 digits.")
+
+        # Normalize to the desired format (e.g., 123-456-7891)
+        if len(cleaned_number) == 10:
+            return f"{cleaned_number[:3]}-{cleaned_number[3:6]}-{cleaned_number[6:]}"
+        elif len(cleaned_number) == 7:
+            return f"{cleaned_number[:3]}-{cleaned_number[3:]}"
+        elif len(cleaned_number) == 11 and cleaned_number.startswith('1'):
+            # For numbers like +1XXXXXXXXXX or 11234567891, return in standard format
+            return f"{cleaned_number[1:4]}-{cleaned_number[4:7]}-{cleaned_number[7:]}"
+
+        # If none of the formats matched, raise an error
+        raise ValueError("Invalid phone number format.")
+
 
 class EducationDataModel(BaseModel):
     university: Optional[str] = None

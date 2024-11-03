@@ -65,6 +65,7 @@ class PayloadFactory:
             session_data = await PayloadFactory.process_ai_options(session_data)
             PayloadFactory.remove_non_unique_forms()
             json_payload = CompiledPayload(**session_data).dict()
+            print(PayloadFactory.remove_none_values(json_payload))
             return PayloadFactory.remove_none_values(json_payload)
         except Exception:
             return render_template('500.html')

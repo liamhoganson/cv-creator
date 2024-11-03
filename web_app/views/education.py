@@ -9,5 +9,4 @@ class EducationData(BasePage):
 
     def process_form(self, form, is_multiple):
         form_data = SessionHandler.get_form_data(form)
-        print(form_data)
-        print(SessionHandler.update_session("education_data", form_data, is_multiple))
+        SessionHandler.update_session("education_data", form_data, is_multiple)

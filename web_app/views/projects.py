@@ -11,4 +11,3 @@ class ProjectData(BasePage):
     def process_form(self, form, is_multiple):
         form_data = SessionHandler.get_form_data(form)
         SessionHandler.update_session("projects_data", form_data, is_multiple)
-        print(session)
