@@ -1,6 +1,6 @@
 import re
-from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator, model_validator, Field
-from typing import Optional, List, Dict, Sequence, Union
+from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator, model_validator, Field, constr
+from typing import Optional, List, Dict, Sequence, Union, Type, Iterator
 from datetime import datetime
 
 class CommonFunctionality:
@@ -42,7 +42,7 @@ class CommonFunctionality:
             values[end_field] = None
         return values
 
-    def convert_datetime(self):
+    def convert_datetime(self) -> str:
         '''
         Converts a datetime object to a formatted string.
         '''
@@ -50,9 +50,8 @@ class CommonFunctionality:
             return self.v.strftime("%m/%d/%Y")
         return self.v
 
-
-class UserDataModel(BaseModel):
-    full_name: str
+class UserDataModel(BaseModel, arbitrary_types_allowed=True):
+    full_name: str = constr(max_length=50)
     phone_number: str
     email: EmailStr
     linkedin: Optional[HttpUrl] = None

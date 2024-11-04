@@ -9,6 +9,7 @@ from ..views.projects import ProjectData
 from ..views.skills import SkillsData
 from ..views.certs import CertsData
 from ..views.aioptions import AiOptionsData
+from ..site.validator import Validator
 
 # Blueprint constructor
 site = Blueprint("site", __name__)
@@ -48,6 +49,10 @@ def certs():
 def aioptions():
     page = AiOptionsData()
     return page.handle_request()
+
+@site.route("/validate", methods=['POST'])
+def validate():
+    return Validator.consume()
 
 @site.route("/submit", methods=["GET"])
 def submit():

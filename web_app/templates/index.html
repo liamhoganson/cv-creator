@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>User Info</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script> <!-- Ensure HTMX is included -->
 </head>
 <body>
     <form method="POST" action="{{ url_for('site.userinfo') }}">
@@ -11,7 +12,17 @@
         <div id="userinfo-forms">
             <div class="userinfo-form">
                 <div>{{ user_form.full_name.label }} {{ user_form.full_name }}</div>
-                <div>{{ user_form.phone_number.label }} {{ user_form.phone_number }}</div>
+                <div>
+                    {{ user_form.phone_number.label }}
+                    <input type="text"
+                           name="phone_number"
+                           id="phone_number"
+                           hx-post="/validate"
+                           hx-trigger="blur"
+                           hx-target="#phone_error"
+                           onblur="this.setAttribute('hx-vals', JSON.stringify({field_name: 'phone_number', field_value: this.value}))">
+                    <span id="phone_error" style="color: green;"></span>
+                </div>
                 <div>{{ user_form.email.label }} {{ user_form.email }}</div>
                 <div>{{ user_form.linkedin.label }} {{ user_form.linkedin }}</div>
                 <div>{{ user_form.github.label }} {{ user_form.github }}</div>
