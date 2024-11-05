@@ -28,7 +28,7 @@ class CommonFunctionality:
     @staticmethod
     def datetime_validation(values, start_field: str, end_field: str):
         '''
-        Validates start and end dates based on provided field names.
+        Sets end date to "Present" as a default if start date is filled in. This bypasses the default value of None if the user skips the page entirely.
         '''
         start_date = values.get(start_field)
         end_date = values.get(end_field)
@@ -63,6 +63,9 @@ class UserDataModel(BaseModel, arbitrary_types_allowed=True):
 
     @field_validator('phone_number', mode='before')
     def validate_phone(cls, v):
+        '''
+        Custom phone number validator.
+        '''
         # Check for letters in the input
         if re.search(r'[A-Za-z]', v):
             raise ValueError("Phone number must not contain letters.")
@@ -83,9 +86,8 @@ class UserDataModel(BaseModel, arbitrary_types_allowed=True):
         # If none of the formats matched, raise an error
         raise ValueError("Invalid phone number format.")
 
-
 class EducationDataModel(BaseModel):
-    university: Optional[str] = Field(default=None, description="Name of the university.")
+    university: Optional[str] = Field(default=None, description="Name of the university.", max_length=50)
     location: Optional[str] = Field(default=None, description="Location of the university.")
     degree: Optional[str] = Field(default=None, description="Degree obtained.")
     university_start_date: Optional[Union[str, None]]
@@ -104,7 +106,7 @@ class ExperienceDataModel(BaseModel):
     company: Optional[str] = None
     location: Optional[str] = None
     job_start_date: Optional[datetime] = None
-    job_end_date: Optional[datetime] | Optional[str] = None
+    job_end_date: Union[Optional[datetime], Optional[str]] = None
     job_functions: Optional[List[str]] = None
 
     # Experience Model Validators

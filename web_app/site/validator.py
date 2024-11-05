@@ -9,8 +9,8 @@ class Validator:
     This allows immediate error handling as soon as any validation fails.
 
     Args:
-        model: The Pydantic model to validate against
         data_dict: Dictionary containing data to validate
+        data_model: The Pydantic model to validate against
 
     Yields:
         ValidationError: Any validation errors encountered during the process
@@ -22,7 +22,7 @@ class Validator:
 
     def validate_selected_fields_from_model(self) -> Iterator[ValidationError]:
         '''
-        Hacky way to get Pydantic to validate individual fields. Credit to: https://github.com/pydantic/pydantic/discussions/7367#discussioncomment-8969488 for the solution.
+        Generator to catch validation errors and yield them. Credit to: https://github.com/pydantic/pydantic/discussions/7367#discussioncomment-8969488 for the solution.
         '''
         for k, v in self.data_dict.items():
             try:
@@ -33,7 +33,8 @@ class Validator:
     @staticmethod
     def consume():
 
-        # Maps all field_names in app to respective data model that they belong to. There's probably a better way to do this
+        # Maps all field_names in app to respective data model that they belong to. There's probably a better way to do this. Might look into pathlib.
+        #TODO: Look into pathlib for dynamically finding and loading in the respective data model for any of the field names.
         FIELD_MODEL_MAP = {
         "full_name": UserDataModel,
         "phone_number": UserDataModel,
