@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, render_template
 from ..base_page import BasePage
-from ..site.forms import UserForm
-from ..site.session_handler import SessionHandler
+from ..app_site.forms import UserForm
+from ..app_site.session_handler import SessionHandler
 from ..data_models.flask_form_data_models import UserDataModel
 
 class UserData(BasePage):

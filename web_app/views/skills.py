@@ -1,7 +1,7 @@
 from ..base_page import BasePage
-from ..site.forms import SkillsForm
+from ..app_site.forms import SkillsForm
 from ..data_models.flask_form_data_models import SkillsDataModel
-from ..site.session_handler import SessionHandler
+from ..app_site.session_handler import SessionHandler
 
 class SkillsData(BasePage):
     def __init__(self):

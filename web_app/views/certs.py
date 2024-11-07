@@ -1,7 +1,7 @@
 from ..base_page import BasePage
-from ..site.forms import CertsForm
+from ..app_site.forms import CertsForm
 from ..data_models.flask_form_data_models import CertsDataModel
-from ..site.session_handler import SessionHandler
+from ..app_site.session_handler import SessionHandler
 
 class CertsData(BasePage):
     def __init__(self):

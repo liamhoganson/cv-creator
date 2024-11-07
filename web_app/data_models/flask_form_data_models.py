@@ -1,5 +1,5 @@
 import re
-from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator, model_validator, Field, constr
+from pydantic import BaseModel, EmailStr, HttpUrl, ValidationError, field_validator, model_validator, Field, ValidationError
 from typing import Optional, List, Dict, Sequence, Union, Type, Iterator
 from datetime import datetime
 
@@ -50,8 +50,8 @@ class CommonFunctionality:
             return self.v.strftime("%m/%d/%Y")
         return self.v
 
-class UserDataModel(BaseModel, arbitrary_types_allowed=True):
-    full_name: str = constr(max_length=50)
+class UserDataModel(BaseModel, validate_assignment=True):
+    full_name: str = Field(max_length=50)
     phone_number: str
     email: EmailStr
     linkedin: Optional[HttpUrl] = None
@@ -163,3 +163,17 @@ class CompiledPayload(BaseModel):
     projects_data: Optional[List[ProjectDataModel]] = None
     skills_data: Optional[SkillsDataModel] = None
     certs_data: Optional[CertsDataModel] = None
+
+
+# def validate_individual_fields(**kwargs):
+#     for k, v in kwargs.items():
+#         foo = UserDataModel.model_construct() ## Creates a new instance of the data model w/out validation
+#         try:
+#             bar = foo.k = v
+#         except ValidationError as e:
+#             yield e
+
+# json_data = {"phone_number": "8016567238"}
+# # To collect all errors at once
+# errors = list(validate_individual_fields(**json_data))
+# print(errors)

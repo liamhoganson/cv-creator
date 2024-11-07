@@ -1,6 +1,6 @@
 from ..base_page import BasePage
-from ..site.forms import EducationForm
-from ..site.session_handler import SessionHandler
+from ..app_site.forms import EducationForm
+from ..app_site.session_handler import SessionHandler
 from ..data_models.flask_form_data_models import EducationDataModel
 
 class EducationData(BasePage):

@@ -1,8 +1,7 @@
 from ..base_page import BasePage
-from ..site.forms import ProjectForm
+from ..app_site.forms import ProjectForm
 from ..data_models.flask_form_data_models import ProjectDataModel
-from ..site.session_handler import SessionHandler
-from flask import session
+from ..app_site.session_handler import SessionHandler
 
 class ProjectData(BasePage):
     def __init__(self):

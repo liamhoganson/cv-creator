@@ -12,7 +12,7 @@ def create_app():
 
     csrf = CSRFProtect(app)
 
-    from .site.routes import site
+    from .app_site.routes import site
     from .errors.handlers import errors
 
     app.register_blueprint(site)
