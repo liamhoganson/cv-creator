@@ -13,14 +13,12 @@ class ModelResolver:
         try:
             self.data_models = import_module(str(self.data_models_module))
         except ImportError:
-            render_template('500.html')
-            raise f"Could not load in data models!"
+            raise(f"Could not load in data models!")
 
-    def fetch_model(self, query_string: str):
+    def fetch_model(self, query_string: str) -> BaseModel:
         for obj_name, obj in inspect.getmembers(self.data_models, inspect.isclass):
                 if issubclass(obj, BaseModel) and obj != BaseModel:
                     if query_string in obj.model_fields.keys():
                         print(f"Found Data Model! Using: {obj_name}")
                         return obj
-        render_template('500.html')
-        raise ValueError(f"Could not find associated class for query string: {query_string}")
+        raise ValueError(f"Could not find associated data model for query string: {query_string}")
