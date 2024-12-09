@@ -1,6 +1,8 @@
-from flask import request, jsonify, make_response
+import html
+import nh3
+from flask import request, jsonify, make_response, render_template
 from pydantic import BaseModel, ValidationError
-from typing import Iterator
+from typing import Iterator, Union, List
 from ..data_models.flask_form_data_models import *
 from .model_resolver import ModelResolver
 
@@ -20,7 +22,7 @@ class Validator:
 
     def validate_selected_fields_from_model(self) -> Iterator[ValidationError]:
         '''
-        Generator to catch validation errors and yield them.
+        Generator to catch validation errors and yield them. Manually uses Pydantic's built in methods.
         '''
         for k, v in self.data_dict.items():
             try:
@@ -33,45 +35,31 @@ class Validator:
     @staticmethod
     def consume():
         # Extract form data from the request
-        field_name = request.form.get("field_name")
-        field_value = request.form.get("field_value")
+        field_name: str = request.form.get("field_name")
+        field_value: str = nh3.clean(request.form.get("field_value")) ## Sanitizes user input in case of HTML or JS.
+
+        custom_errors: dict = {
+            "full_name": "Please enter a valid name.",
+            "phone_number": "Please enter a valid phone number.",
+            "email": "Please enter a valid E-mail address.",
+            "linkedin": "Please enter a valid LinkedIn URL.",
+            "github": "Please enter a valid Github URL"
+        }
+        error: str = custom_errors.get(field_name)
 
         # Resolve the appropriate Pydantic model
-        data_model: BaseModel = ModelResolver().fetch_model(field_name)
+        data_model: ModelResolver = ModelResolver().fetch_model(field_name)
         data_dict: dict = {field_name: field_value}
 
         # Instantiate the validator and perform validation
-        validator = Validator(data_dict, data_model)
-        errors = list(validator.validate_selected_fields_from_model())
+        validator: Validator = Validator(data_dict, data_model)
+        errors: Union[List, bool] = list(validator.validate_selected_fields_from_model()) # Validator yielded errors. Returns list of errors or false.
+        input_class: str = "is-danger" if errors else "is-success"
 
-        # Check for validation errors
-        if errors:
-            input_html = f'''
-            <input class="input is-danger"
-                type="text"
-                name="{field_name}"
-                id="{field_name}"
-                placeholder="Please enter a valid phone number."
-                value="{field_value}"
-                hx-post="/validate"
-                hx-trigger="blur"
-                hx-target="#{field_name}"
-                hx-swap="outerHTML"
-                onblur="this.setAttribute('hx-vals', JSON.stringify({{field_name: '{field_name}', field_value: this.value}}))"/>
-                '''
-            return make_response(input_html, 200)
-
-        input_html = f'''
-        <input class="input is-success"
-            type="text"
-            name="{field_name}"
-            id="{field_name}"
-            placeholder="Enter Phone Number"
-            value="{field_value}"
-            hx-post="/validate"
-            hx-trigger="blur"
-            hx-target="#{field_name}"
-            hx-swap="outerHTML"
-            onblur="this.setAttribute('hx-vals', JSON.stringify({{field_name: '{field_name}', field_value: this.value}}))"/>
-        '''
-        return make_response(input_html, 200)
+        return make_response(render_template(
+            "input_field.html",
+            field_name=field_name,
+            sanitized_value=field_value,
+            placeholder=error if errors else "",
+            input_class=input_class
+        ), 200)

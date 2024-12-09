@@ -17,7 +17,7 @@ class SessionHandler():
     @classmethod
     def update_session(cls, session_key: str, form_data: Union[dict, str], is_multiple: bool) -> dict:
         """
-        Updates the session with form data.
+        Updates the session dictionary with form data.
         """
         # Adds form entry dict to a list
         if is_multiple:
